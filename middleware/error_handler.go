@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"encoding/json"
 	"errors"
 	"inv-backend/utilities"
 	"net/http"
@@ -25,6 +26,11 @@ func ErrorHandler() gin.HandlerFunc {
 			c.JSON(http.StatusNotFound, utilities.HTTPError{
 				Code:    http.StatusNotFound,
 				Message: "Item could not be found.",
+			})
+		case errors.As(err, new(*json.SyntaxError)), errors.As(err, new(*json.UnmarshalTypeError)):
+			c.JSON(http.StatusBadRequest, utilities.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: "Invalid JSON provided in the request body.",
 			})
 		default:
 			c.JSON(http.StatusInternalServerError, utilities.HTTPError{
