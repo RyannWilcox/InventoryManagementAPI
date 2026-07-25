@@ -1,6 +1,7 @@
 package main
 
 import (
+	"inv-backend/middleware"
 	"inv-backend/models"
 	"inv-backend/routes"
 	"inv-backend/utilities"
@@ -36,8 +37,9 @@ func main() {
 	}
 
 	router := gin.Default()
-	rateLimiter := utilities.NewTokenBucket(5, time.Second)
-	routes.InitRoutes(router, db, rateLimiter)
+	router.Use(middleware.InjectDB(db))
+	router.Use(middleware.RateLimit(utilities.NewTokenBucket(5, time.Second)))
+	routes.InitRoutes(router, db)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
