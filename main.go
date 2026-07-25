@@ -5,9 +5,16 @@ import (
 	"inv-backend/routes"
 	"inv-backend/utilities"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+// @title Inventory Management API
+// @version 1.0
+// @description This a backend API for an inventory management system
+// @host localhost:8080
+// @BasePath /api/v1
 
 func main() {
 	db, err := utilities.Connect()
@@ -29,8 +36,8 @@ func main() {
 	}
 
 	router := gin.Default()
-
-	routes.InitRoutes(router, db)
+	rateLimiter := utilities.NewTokenBucket(5, time.Second)
+	routes.InitRoutes(router, db, rateLimiter)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
