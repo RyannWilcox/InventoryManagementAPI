@@ -1,13 +1,21 @@
 package main
 
 import (
+	"inv-backend/middleware"
 	"inv-backend/models"
 	"inv-backend/routes"
 	"inv-backend/utilities"
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
+
+// @title Inventory Management API
+// @version 1.0
+// @description This a backend API for an inventory management system
+// @host localhost:8080
+// @BasePath /api/v1
 
 func main() {
 	db, err := utilities.Connect()
@@ -28,8 +36,16 @@ func main() {
 		log.Fatalf("Failed to automigrate database: %v", err)
 	}
 
+	utilities.SeedDatabase(db)
+
 	router := gin.Default()
 
+	// Setup middleware
+	router.Use(middleware.InjectDB(db))
+	router.Use(middleware.RateLimit(utilities.NewTokenBucket(5, time.Second)))
+	router.Use(middleware.ErrorHandler())
+
+	// create endpoint routes
 	routes.InitRoutes(router, db)
 
 	if err := router.Run(":8080"); err != nil {

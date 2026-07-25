@@ -13,7 +13,7 @@ type Item struct {
 	Stock     int       `gorm:"not null;default:0" json:"stock" binding:"required"`
 	Price     float64   `gorm:"not null;default:0" json:"price" binding:"required"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt time.Time `gorm:"autoCreateTime" json:"updated_at"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
 
 func (i *Item) BeforeCreate(tx *gorm.DB) (err error) {
