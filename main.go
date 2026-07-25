@@ -36,6 +36,8 @@ func main() {
 		log.Fatalf("Failed to automigrate database: %v", err)
 	}
 
+	utilities.SeedDatabase(db)
+
 	router := gin.Default()
 
 	// Setup middleware
