@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"inv-backend/models"
-	"inv-backend/utilities"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +16,7 @@ func GetItem(c *gin.Context) {
 
 	var item models.Item
 	if result := db.First(&item, "id = ?", id); result.Error != nil {
-		c.JSON(http.StatusNotFound, utilities.HTTPError{
-			Code:    http.StatusNotFound,
-			Message: "Item could not be found.",
-		})
+		c.Error(result.Error)
 		return
 	}
 

@@ -37,8 +37,13 @@ func main() {
 	}
 
 	router := gin.Default()
+
+	// Setup middleware
 	router.Use(middleware.InjectDB(db))
 	router.Use(middleware.RateLimit(utilities.NewTokenBucket(5, time.Second)))
+	router.Use(middleware.ErrorHandler())
+
+	// create endpoint routes
 	routes.InitRoutes(router, db)
 
 	if err := router.Run(":8080"); err != nil {
