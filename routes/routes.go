@@ -11,13 +11,13 @@ import (
 func InitRoutes(router *gin.Engine, db *gorm.DB) {
 	v1 := router.Group("api/v1")
 	{
-		items := v1.Group("/items")
+		inventory := v1.Group("/inventory")
 		{
-			items.GET("", controllers.GetItems)
-			items.GET(":id", controllers.GetItem)
-			items.POST("", controllers.CreateItem)
-			items.PUT(":id", controllers.UpdateItem)
-			items.DELETE(":id", controllers.DeleteItem)
+			inventory.GET("", controllers.GetItems)
+			inventory.GET(":id", controllers.GetItem)
+			inventory.POST("", controllers.CreateItem)
+			inventory.PUT(":id", controllers.UpdateItem)
+			inventory.DELETE(":id", controllers.DeleteItem)
 		}
 	}
 }
