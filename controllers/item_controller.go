@@ -9,6 +9,21 @@ import (
 	"gorm.io/gorm"
 )
 
+// Will add sorting options to the query
+func ApplySorting(c *gin.Context, query *gorm.DB) {
+
+}
+
+// Will add filter optins to the query
+func ApplyFiltering(c *gin.Context, query *gorm.DB) {
+
+}
+
+// Will add pagination to the query
+func ApplyPagination(c *gin.Context, query *gorm.DB) {
+
+}
+
 // Retieve all inventory items
 func GetItems(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
