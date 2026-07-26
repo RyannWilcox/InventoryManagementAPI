@@ -93,7 +93,7 @@ On startup, the server will:
 
 You should see log output confirming these steps, ending with the Gin server startup banner.
 
-Once the server is running, interactive Swagger documentation is available at:
+Once the server is running, Swagger documentation is available at:
 
 ```
 http://localhost:8080/swagger/index.html
