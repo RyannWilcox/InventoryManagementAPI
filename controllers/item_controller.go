@@ -161,6 +161,7 @@ func CreateItem(c *gin.Context) {
 		return
 	}
 
+	c.JSON(http.StatusCreated, item)
 }
 
 // Will update an existing inventory item with the fields provided in the request body.
@@ -203,6 +204,8 @@ func UpdateItem(c *gin.Context) {
 		c.Error(err)
 		return
 	}
+
+	c.JSON(http.StatusOK, item)
 }
 
 // Will delete an existing inventory item by its id.
