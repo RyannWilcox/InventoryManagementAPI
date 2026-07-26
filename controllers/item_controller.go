@@ -36,7 +36,7 @@ func GetItems(c *gin.Context) {
 	//TODO: Add filtering
 
 	// Fetch all items from the database.
-	if err := db.Preload("Item").Find(&items).Error; err != nil {
+	if err := db.Find(&items).Error; err != nil {
 		c.Error(err)
 		return
 	}
