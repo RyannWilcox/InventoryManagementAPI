@@ -61,7 +61,7 @@ go mod download
 If you don't already have a database, create one. For example, using the `psql` CLI:
 
 ```bash
-createdb inventory_db
+createdb inv_db
 ```
 
 **4. Configure environment variables**
@@ -72,7 +72,7 @@ Create a `.env` file in the project root:
 touch .env
 ```
 
-Populate it with your database connection details:
+Populate it with your database connection details
 
 > The server reads these values at startup to build its PostgreSQL connection string. If `.env` is missing or a value is blank, the server will fail to start with a connection error.
 
