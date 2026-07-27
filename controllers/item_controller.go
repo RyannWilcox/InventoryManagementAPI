@@ -315,7 +315,7 @@ func DeleteItem(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, utilities.MessageResponse{
+	c.JSON(http.StatusNoContent, utilities.MessageResponse{
 		Message: "Item successfully deleted.",
 	})
 }
