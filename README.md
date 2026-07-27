@@ -72,7 +72,14 @@ Create a `.env` file in the project root:
 touch .env
 ```
 
-Populate it with your database connection details
+Populate it with your database connection details:
+```
+ DB_HOST=localhost
+ DB_PORT=5432
+ DB_USER=your_user_name
+ DB_PASSWORD=your_password
+ DB_NAME=inv_db 
+```
 
 > The server reads these values at startup to build its PostgreSQL connection string. If `.env` is missing or a value is blank, the server will fail to start with a connection error.
 
