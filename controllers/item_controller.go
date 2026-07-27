@@ -77,13 +77,19 @@ func applyPagination(c *gin.Context, query *gorm.DB) (*gorm.DB, utilities.Pagina
 	offsetParam := c.DefaultQuery("offset", "0")
 
 	limit, err := strconv.Atoi(limitParam)
-	if err != nil || limit <= 0 {
+	if err != nil {
 		return nil, utilities.PaginationMetaData{}, err
+	}
+	if limit <= 0 {
+		return nil, utilities.PaginationMetaData{}, fmt.Errorf("%w", utilities.LimitError)
 	}
 
 	offset, err := strconv.Atoi(offsetParam)
-	if err != nil || offset < 0 {
+	if err != nil {
 		return nil, utilities.PaginationMetaData{}, err
+	}
+	if offset < 0 {
+		return nil, utilities.PaginationMetaData{}, fmt.Errorf("%w", utilities.OffsetError)
 	}
 
 	// Add pagination to the query
