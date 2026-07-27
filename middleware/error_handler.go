@@ -5,8 +5,10 @@ import (
 	"errors"
 	"inv-backend/utilities"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
@@ -31,6 +33,16 @@ func ErrorHandler() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, utilities.HTTPError{
 				Code:    http.StatusBadRequest,
 				Message: "Invalid JSON provided in the request body.",
+			})
+		case errors.As(err, new(*strconv.NumError)):
+			c.JSON(http.StatusBadRequest, utilities.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: "An invalid numeric value was provided.",
+			})
+		case errors.As(err, new(validator.ValidationErrors)):
+			c.JSON(http.StatusBadRequest, utilities.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: "Required fields are either missing or invalid",
 			})
 		default:
 			c.JSON(http.StatusInternalServerError, utilities.HTTPError{
