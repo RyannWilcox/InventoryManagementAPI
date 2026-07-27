@@ -34,6 +34,11 @@ func ErrorHandler() gin.HandlerFunc {
 				Code:    http.StatusBadRequest,
 				Message: "Invalid JSON provided in the request body.",
 			})
+		case errors.Is(err, utilities.LimitError), errors.Is(err, utilities.OffsetError):
+			c.JSON(http.StatusBadRequest, utilities.HTTPError{
+				Code:    http.StatusBadRequest,
+				Message: err.Error(),
+			})
 		case errors.As(err, new(*strconv.NumError)):
 			c.JSON(http.StatusBadRequest, utilities.HTTPError{
 				Code:    http.StatusBadRequest,
