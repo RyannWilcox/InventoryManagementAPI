@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/patrickmn/go-cache"
 	"gorm.io/gorm"
 )
 
@@ -159,7 +160,14 @@ func GetItems(c *gin.Context) {
 // @Router       /inventory/{id} [get]
 func GetItem(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
+	itemCache := c.MustGet("cache").(*cache.Cache)
 	id := c.Param("id")
+
+	// check if the item is in the cache
+	if cachedItem, found := itemCache.Get(id); found {
+		c.JSON(http.StatusOK, cachedItem)
+		return
+	}
 
 	var item models.Item
 	// Look up the item by its primary key
@@ -168,6 +176,7 @@ func GetItem(c *gin.Context) {
 		return
 	}
 
+	itemCache.Set(id, item, cache.DefaultExpiration)
 	c.JSON(http.StatusOK, item)
 }
 
@@ -232,6 +241,7 @@ func CreateItem(c *gin.Context) {
 // @Router       /inventory/{id} [put]
 func UpdateItem(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
+	itemCache := c.MustGet("cache").(*cache.Cache)
 	id := c.Param("id")
 
 	var item models.Item
@@ -270,6 +280,9 @@ func UpdateItem(c *gin.Context) {
 		return
 	}
 
+	// remove the item since its been updated
+	itemCache.Delete(id)
+
 	c.JSON(http.StatusOK, item)
 }
 
@@ -286,6 +299,7 @@ func UpdateItem(c *gin.Context) {
 // @Router       /inventory/{id} [delete]
 func DeleteItem(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
+	itemCache := c.MustGet("cache").(*cache.Cache)
 	id := c.Param("id")
 
 	var item models.Item
@@ -314,6 +328,9 @@ func DeleteItem(c *gin.Context) {
 		c.Error(err)
 		return
 	}
+
+	// remove this item from the cache since it no longer exists
+	itemCache.Delete(id)
 
 	c.JSON(http.StatusNoContent, utilities.MessageResponse{
 		Message: "Item successfully deleted.",
