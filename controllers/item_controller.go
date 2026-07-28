@@ -111,7 +111,7 @@ func applyPagination(c *gin.Context, query *gorm.DB) (*gorm.DB, utilities.Pagina
 // @Param        sort      query     string  false  "Comma-separated fields to sort by (name, stock, price, created_at)"
 // @Param        order     query     string  false  "Comma-separated sort directions matching `sort`: asc or desc"
 // @Param        name      query     string  false  "Filter items by exact name match"
-// @Param        minStock  query     int     false  "Filter items with stock greater than or equal to this value"
+// @Param        min_stock query     int     false  "Filter items with stock greater than or equal to this value"
 // @Param        limit     query     int     false  "Max number of items to return (default 20)"
 // @Param        offset    query     int     false  "Number of items to skip (default 0)"
 // @Success      200  {object}  utilities.PaginatedItemsResponse

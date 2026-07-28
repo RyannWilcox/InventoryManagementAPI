@@ -16,7 +16,7 @@ func InitRoutes(router *gin.Engine, db *gorm.DB) {
 	v1BasePath := "api/v1"
 
 	// Setup swagger documentation endpoint
-	docs.SwaggerInfo.BasePath = v1BasePath
+	docs.SwaggerInfo.BasePath = "/" + v1BasePath
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	v1 := router.Group(v1BasePath)
