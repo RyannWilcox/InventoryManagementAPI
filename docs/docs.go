@@ -50,7 +50,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Filter items with stock greater than or equal to this value",
-                        "name": "minStock",
+                        "name": "min_stock",
                         "in": "query"
                     },
                     {
@@ -295,10 +295,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "price": {
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0
                 },
                 "stock": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "updated_at": {
                     "type": "string"

@@ -10,8 +10,8 @@ import (
 type Item struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
 	Name      string    `gorm:"size:255;not null" json:"name" binding:"required"`
-	Stock     int       `gorm:"not null;default:0" json:"stock" binding:"required,gte=0"`
-	Price     float64   `gorm:"not null;default:0" json:"price" binding:"required,gte=0"`
+	Stock     *int      `gorm:"not null;default:0" json:"stock" binding:"required,gte=0"`
+	Price     *float64  `gorm:"not null;default:0" json:"price" binding:"required,gte=0"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
