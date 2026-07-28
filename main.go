@@ -42,6 +42,7 @@ func main() {
 
 	// Setup middleware
 	router.Use(middleware.InjectDB(db))
+	router.Use(middleware.InjectCache(utilities.NewCache(5*time.Minute, 10*time.Minute)))
 	router.Use(middleware.RateLimit(utilities.NewTokenBucket(10, time.Second)))
 	router.Use(middleware.ErrorHandler())
 
