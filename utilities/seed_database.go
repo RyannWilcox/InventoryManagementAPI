@@ -7,31 +7,35 @@ import (
 	"gorm.io/gorm"
 )
 
+func toPtr[T any](v T) *T {
+	return &v
+}
+
 func SeedDatabase(db *gorm.DB) {
 	var count int64
 	db.Model(&models.Item{}).Count(&count)
 	if count == 0 {
 		items := []models.Item{
-			{Name: "Laptop", Stock: 10, Price: 999.99},
-			{Name: "Smartphone", Stock: 20, Price: 699.99},
-			{Name: "Headphones", Stock: 15, Price: 199.99},
-			{Name: "Keyboard", Stock: 25, Price: 89.99},
-			{Name: "Mouse", Stock: 30, Price: 49.99},
-			{Name: "Monitor", Stock: 12, Price: 299.99},
-			{Name: "Webcam", Stock: 18, Price: 79.99},
-			{Name: "Printer", Stock: 7, Price: 149.99},
-			{Name: "Tablet", Stock: 5, Price: 399.99},
-			{Name: "Smartwatch", Stock: 14, Price: 249.99},
-			{Name: "External Hard Drive", Stock: 8, Price: 119.99},
-			{Name: "USB Flash Drive", Stock: 50, Price: 19.99},
-			{Name: "Router", Stock: 6, Price: 89.99},
-			{Name: "Projector", Stock: 3, Price: 499.99},
-			{Name: "Bluetooth Speaker", Stock: 22, Price: 129.99},
-			{Name: "Gaming Console", Stock: 11, Price: 499.99},
-			{Name: "Camera", Stock: 4, Price: 599.99},
-			{Name: "Fitness Tracker", Stock: 16, Price: 99.99},
-			{Name: "Drone", Stock: 2, Price: 899.99},
-			{Name: "VR Headset", Stock: 9, Price: 399.99},
+			{Name: "Laptop", Stock: toPtr(10), Price: toPtr(999.99)},
+			{Name: "Smartphone", Stock: toPtr(20), Price: toPtr(699.99)},
+			{Name: "Headphones", Stock: toPtr(15), Price: toPtr(199.99)},
+			{Name: "Keyboard", Stock: toPtr(25), Price: toPtr(89.99)},
+			{Name: "Mouse", Stock: toPtr(30), Price: toPtr(49.99)},
+			{Name: "Monitor", Stock: toPtr(12), Price: toPtr(299.99)},
+			{Name: "Webcam", Stock: toPtr(18), Price: toPtr(79.99)},
+			{Name: "Printer", Stock: toPtr(7), Price: toPtr(149.99)},
+			{Name: "Tablet", Stock: toPtr(5), Price: toPtr(399.99)},
+			{Name: "Smartwatch", Stock: toPtr(14), Price: toPtr(249.99)},
+			{Name: "External Hard Drive", Stock: toPtr(8), Price: toPtr(119.99)},
+			{Name: "USB Flash Drive", Stock: toPtr(50), Price: toPtr(19.99)},
+			{Name: "Router", Stock: toPtr(6), Price: toPtr(89.99)},
+			{Name: "Projector", Stock: toPtr(3), Price: toPtr(499.99)},
+			{Name: "Bluetooth Speaker", Stock: toPtr(22), Price: toPtr(129.99)},
+			{Name: "Gaming Console", Stock: toPtr(11), Price: toPtr(499.99)},
+			{Name: "Camera", Stock: toPtr(4), Price: toPtr(599.99)},
+			{Name: "Fitness Tracker", Stock: toPtr(16), Price: toPtr(99.99)},
+			{Name: "Drone", Stock: toPtr(2), Price: toPtr(899.99)},
+			{Name: "VR Headset", Stock: toPtr(9), Price: toPtr(399.99)},
 		}
 
 		db.Create(&items)
